@@ -28,7 +28,7 @@ func ScrapeDisk() error {
 		updateTargetDisks(target)
 	}
 
-	log.Warn().Str("Target", "disk").Msg("Finish scraping")
+	log.Info().Str("Target", "disk").Msg("Finish scraping")
 	return nil
 }
 
