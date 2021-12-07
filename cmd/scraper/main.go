@@ -28,8 +28,15 @@ var rootCmd = &cobra.Command{
 		databases.InitDatabase()
 		models.InitModels()
 
+		targets, err := models.TargetList()
+		if err != nil {
+			log.Fatal().Err(err)
+		}
+
 		scheduler := gocron.NewScheduler(time.UTC)
-		scheduler.Cron("* * * * *").Do(scrape.ScrapeDisk)
+		for _, target := range targets {
+			scheduler.Cron(target.ScrapeCron).Do(scrape.ScrapeDisk, target)
+		}
 		scheduler.StartBlocking()
 	},
 }

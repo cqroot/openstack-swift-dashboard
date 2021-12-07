@@ -7,7 +7,6 @@ import (
 
 	prommodel "github.com/prometheus/client_model/go"
 	"github.com/prometheus/common/expfmt"
-	"github.com/rs/zerolog/log"
 
 	"github.com/cqroot/openstack-swift-dashboard/models"
 )
@@ -17,22 +16,7 @@ type hdPair struct {
 	device string
 }
 
-func ScrapeDisk() error {
-	log.Info().Str("Target", "disk").Msg("Start scraping")
-
-	targets, err := models.TargetList()
-	if err != nil {
-		return err
-	}
-	for _, target := range targets {
-		updateTargetDisks(target)
-	}
-
-	log.Info().Str("Target", "disk").Msg("Finish scraping")
-	return nil
-}
-
-func updateTargetDisks(target models.Target) {
+func ScrapeDisk(target models.Target) {
 	diskMap := make(map[hdPair]*models.Disk)
 	disks := make([]models.Disk, 0)
 
