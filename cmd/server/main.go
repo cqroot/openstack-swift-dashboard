@@ -22,7 +22,7 @@ var rootCmd = &cobra.Command{
 	Short: "",
 	Long:  "",
 	Run: func(cmd *cobra.Command, args []string) {
-		internal.InitZerolog(true)
+		internal.InitZerolog()
 		databases.InitDatabase()
 		models.InitModels()
 
