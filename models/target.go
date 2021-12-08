@@ -6,10 +6,9 @@ import (
 )
 
 type Target struct {
-	ID         uint   `gorm:"primaryKey"`
-	Name       string `gorm:"primaryKey;unique;not null"`
-	Endpoint   string `gorm:"unique;not null"`
-	ScrapeCron string `gorm:"default:00,30 * * * *"`
+	ID       uint   `gorm:"primaryKey"`
+	Name     string `gorm:"primaryKey;unique;not null"`
+	Endpoint string `gorm:"unique;not null"`
 }
 
 func TargetList() ([]Target, error) {

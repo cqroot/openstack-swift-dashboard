@@ -35,7 +35,7 @@ var rootCmd = &cobra.Command{
 
 		scheduler := gocron.NewScheduler(time.UTC)
 		for _, target := range targets {
-			scheduler.Cron(target.ScrapeCron).Do(scrape.ScrapeDisk, target)
+			scheduler.Cron("00,30 * * * *").Do(scrape.ScrapeDisk, target)
 		}
 		scheduler.StartBlocking()
 	},

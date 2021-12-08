@@ -10,9 +10,8 @@ import (
 )
 
 type targetInput struct {
-	Name       string
-	Endpoint   string
-	ScrapeCron string
+	Name     string
+	Endpoint string
 }
 
 func GetTargetList(c *gin.Context) {
@@ -33,9 +32,8 @@ func PutTarget(c *gin.Context) {
 	}
 
 	target := models.Target{
-		Name:       input.Name,
-		Endpoint:   input.Endpoint,
-		ScrapeCron: input.ScrapeCron,
+		Name:     input.Name,
+		Endpoint: input.Endpoint,
 	}
 	models.UpdateTarget(&target)
 
