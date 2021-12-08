@@ -24,9 +24,13 @@ var rootCmd = &cobra.Command{
 	Short: "",
 	Long:  "",
 	Run: func(cmd *cobra.Command, args []string) {
-		internal.InitZerolog(true)
+		internal.InitZerolog()
 		databases.InitDatabase()
 		models.InitModels()
+
+		log.Info().Msg("OpenStack Swift Dashboard")
+		log.Info().Msg("Scraper")
+		log.Info().Msg("")
 
 		targets, err := models.TargetList()
 		if err != nil {
@@ -35,6 +39,7 @@ var rootCmd = &cobra.Command{
 
 		scheduler := gocron.NewScheduler(time.UTC)
 		for _, target := range targets {
+			log.Info().Str("name", target.Name).Str("endpoint", target.Endpoint).Msg("Registering target")
 			scheduler.Cron("00,30 * * * *").Do(scrape.ScrapeDisk, target)
 		}
 		scheduler.StartBlocking()
@@ -48,6 +53,8 @@ func init() {
 }
 
 func initConfig() {
+	viper.SetDefault("verbose", false)
+
 	viper.BindPFlags(rootCmd.Flags())
 }
 
