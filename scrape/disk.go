@@ -7,6 +7,7 @@ import (
 
 	prommodel "github.com/prometheus/client_model/go"
 	"github.com/prometheus/common/expfmt"
+	"github.com/rs/zerolog/log"
 
 	"github.com/cqroot/openstack-swift-dashboard/models"
 )
@@ -17,6 +18,8 @@ type hdPair struct {
 }
 
 func ScrapeDisk(target models.Target) {
+	log.Info().Str("target", target.Name).Msg("Start scraping")
+
 	diskMap := make(map[hdPair]*models.Disk)
 	disks := make([]models.Disk, 0)
 
@@ -59,9 +62,12 @@ func ScrapeDisk(target models.Target) {
 		}
 	}
 	for _, d := range diskMap {
+		d.Target = target.ID
 		disks = append(disks, *d)
 	}
 	models.UpdateDisks(&disks)
+
+	log.Info().Str("target", target.Name).Msg("Finish scraping")
 }
 
 func parseMF(url string) (map[string]*prommodel.MetricFamily, error) {

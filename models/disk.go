@@ -8,6 +8,7 @@ import (
 type Disk struct {
 	Host   string `gorm:"primaryKey;autoIncrement:false"`
 	Device string `gorm:"primaryKey;autoIncrement:false"`
+	Target uint   `gorm:"not null"`
 	Avail  int64  `gorm:"type:bigint"`
 	Used   int64  `gorm:"type:bigint"`
 	Size   int64  `gorm:"type:bigint"`
