@@ -6,11 +6,11 @@ import (
 )
 
 type TotalDisk struct {
-	Target     uint  `gorm:"primaryKey;autoIncrement:false"`
+	Target     uint  `gorm:"type:bigint;primaryKey;autoIncrement:false"`
 	TotalAvail int64 `gorm:"type:bigint"`
 	TotalUsed  int64 `gorm:"type:bigint"`
 	TotalSize  int64 `gorm:"type:bigint"`
-	Date       int   `gorm:"type:int"`
+	Date       int   `gorm:"type:int;primaryKey;autoIncrement:false"`
 }
 
 func UpdateTotalDisk(totalDisk *TotalDisk) {
