@@ -3,13 +3,13 @@ package scrape
 import (
 	"fmt"
 	"net/http"
-	"strconv"
 	"strings"
 	"time"
 
 	prommodel "github.com/prometheus/client_model/go"
 	"github.com/prometheus/common/expfmt"
 	"github.com/rs/zerolog/log"
+	"github.com/spf13/cast"
 
 	"github.com/cqroot/openstack-swift-dashboard/models"
 )
@@ -24,13 +24,9 @@ func ScrapeDisk(target models.Target) {
 
 	diskMap := make(map[hdPair]*models.Disk)
 
-	date, err := strconv.Atoi(time.Now().Local().Format("20060102"))
-	if err != nil {
-		panic(err)
-	}
 	totalDisk := models.TotalDisk{
 		Target: target.ID,
-		Date:   date,
+		Date:   cast.ToInt(time.Now().Local().Format("20060102")),
 	}
 	disks := make([]models.Disk, 0)
 
@@ -84,7 +80,7 @@ func parseDisk(metricName string, metric *prommodel.MetricFamily, diskMap map[hd
 		case "swift_disk_size_bytes":
 			diskMap[key].Size = int64(*metric.Gauge.Value)
 		case "swift_disk_usage_bytes":
-			diskMap[key].Usage = int64(*metric.Gauge.Value)
+			diskMap[key].Usage = *metric.Gauge.Value
 		}
 	}
 }

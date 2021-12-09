@@ -48,9 +48,12 @@ func initConfig() {
 }
 
 func initV1Group(v1Group *gin.RouterGroup) {
-	diskGroup := v1Group.Group("/target")
-	diskGroup.GET("", controllers.GetTargetList)
-	diskGroup.PUT("", controllers.PutTarget)
+	targetGroup := v1Group.Group("/target")
+	targetGroup.GET("", controllers.GetTargetList)
+	targetGroup.PUT("", controllers.PutTarget)
+
+	diskGroup := v1Group.Group("/disk")
+	diskGroup.GET(":id", controllers.GetDiskList)
 }
 
 func main() {
