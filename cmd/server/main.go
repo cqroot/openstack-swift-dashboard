@@ -28,6 +28,8 @@ var rootCmd = &cobra.Command{
 
 		r := gin.Default()
 
+		r.Static("/ui", "./web/dist")
+
 		v1Group := r.Group("/v1")
 		initV1Group(v1Group)
 
