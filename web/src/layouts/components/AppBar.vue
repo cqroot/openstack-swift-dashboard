@@ -38,8 +38,7 @@
 
 <script>
 import { mapState, mapMutations } from "vuex";
-import axios from "axios";
-import message from "@/utils/message";
+import { getTargets } from "@/api/api";
 
 export default {
   data() {
@@ -50,17 +49,13 @@ export default {
     };
   },
   mounted() {
-    axios
-      .get("/v1/target")
-      .then((response) => {
-        this.targets = response.data;
-        if (this.targets.length != 0) {
-          this.setTarget(this.targets[0]);
-        }
-      })
-      .catch((error) => {
-        message(error);
-      });
+    const that = this;
+    getTargets().then(function (res) {
+      that.targets = res.data;
+      if (that.targets.length != 0) {
+        that.setTarget(that.targets[0]);
+      }
+    });
   },
   computed: {
     ...mapState(["drawer", "night", "target"]),

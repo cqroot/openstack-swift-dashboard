@@ -10,8 +10,7 @@
 
 <script>
 import { mapState, mapMutations, mapGetters } from "vuex";
-import axios from "axios";
-import message from "@/utils/message";
+import { getDisks } from "@/api/api";
 
 export default {
   data() {
@@ -42,14 +41,10 @@ export default {
   methods: {
     ...mapMutations(["setTarget"]),
     updateDisks(target) {
-      axios
-        .get("/v1/disk/" + target.ID)
-        .then((response) => {
-          this.disks = response.data;
-        })
-        .catch((error) => {
-          message(error);
-        });
+      const that = this;
+      getDisks(target).then(function (res) {
+        that.disks = res.data;
+      });
     },
   },
 };
