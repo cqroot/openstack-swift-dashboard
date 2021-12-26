@@ -12,6 +12,9 @@ export default new Vuex.Store({
     globalSnackbarTimeout: "3000",
     target: { Name: "", ID: -1 },
   },
+  getters: {
+    getTarget: (state) => state.target,
+  },
   mutations: {
     setDrawer(state, payload) {
       state.drawer = payload;

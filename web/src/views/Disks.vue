@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations, mapGetters } from "vuex";
 import axios from "axios";
 import message from "@/utils/message";
 
@@ -28,20 +28,29 @@ export default {
     };
   },
   mounted() {
-    axios
-      .get("/v1/disk/" + this.target.ID)
-      .then((response) => {
-        this.disks = response.data;
-      })
-      .catch((error) => {
-        message(error);
-      });
+    this.updateDisks(this.target);
   },
   computed: {
     ...mapState(["target"]),
+    ...mapGetters(["getTarget"]),
+  },
+  watch: {
+    getTarget(target) {
+      this.updateDisks(target);
+    },
   },
   methods: {
     ...mapMutations(["setTarget"]),
+    updateDisks(target) {
+      axios
+        .get("/v1/disk/" + target.ID)
+        .then((response) => {
+          this.disks = response.data;
+        })
+        .catch((error) => {
+          message(error);
+        });
+    },
   },
 };
 </script>
